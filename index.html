@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+  <div id="player">  </div>
+
+<script type="text/javascript">
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.body.appendChild(tag);
+
+var player;
+
+var onPlayerReady = (event) => {
+  event.target.seekTo(7770, true);
+  event.target.playVideo()
+}
+var check = () => {
+  if (player.getCurrentTime() > 7843) {
+    player.seekTo(7770, true);
+  }
+}
+var done = false;
+var onPlayerStateChange = (event) => {
+  if (event.data == YT.PlayerState.PLAYING && !done) {
+    setInterval(check, 1000);
+    done = true;
+  }
+  console.log(event);
+}
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '360',
+    width: '640',
+    videoId: 'JWb__K_Ae1M',
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+</script>
+</body>
+</html>
